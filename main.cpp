@@ -10,15 +10,15 @@ using namespace std;
 // Вариант 12
 // Разработать программу тренажера клавиатуры с использованием терминального интерфейса, в которой должен вводиться правильный результат арифметической операции вычисления целочисленного остатка от деления двух случайных операндов. Следует предусмотреть блокировку ввода ошибочных цифр и других символов.
 
-typedef class expression {
-public:
-	expression(string _body) {
-		body = _body;
-	}
-	string body;
-	// bool is
+// typedef class expression {
+// public:
+// 	expression(string _body) {
+// 		body = _body;
+// 	}
+// 	string body;
+// 	// bool is
 
-} expression;
+// } expression;
 
 
 int main() {
@@ -26,23 +26,25 @@ int main() {
 	void set_input_mode(struct termios& saved_attributes);
 	void reset_input_mode(struct termios& saved_attributes);
 	void clear();
-
+	void moveCursorTo(int fromTop, int fromLeft);
 	
 	set_input_mode(saved_attributes);
 
-	string SampleText = "Just some sample string that you need to type";
+	char* SampleText = (char*)"Just some sample string that you need to type";
 	cout << SampleText << endl;
 	char c;
-	while ((c = getchar()) != 27) {
+	while (((c = getchar()) != 27) && c != '\0') {
 		// string hui;
 		// cin >> hui;
 		if (c == 'j') {
-			cout << "\033[20D\033[34m" << endl;
+			cout << "\E[20D\E[34m" << endl;
 		}
 		cout << c << endl;
 	}
+	// cout << "\E[3;2H";
 	// clear();
 	// reset_input_mode(saved_attributes);
+	moveCursorTo(10, 5);
 }
 
 void clear() {
@@ -50,6 +52,9 @@ void clear() {
     std::cout << "\x1B[2J\x1B[H";
 }
 
+void moveCursorTo(int fromTop, int fromLeft) {
+	cout << "\E[" << fromTop << ";" << fromLeft << "H";
+}
 
 void reset_input_mode(struct termios& saved_attributes)
 {
