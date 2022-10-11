@@ -10,11 +10,22 @@ using namespace std;
 // Вариант 12
 // Разработать программу тренажера клавиатуры с использованием терминального интерфейса, в которой должен вводиться правильный результат арифметической операции вычисления целочисленного остатка от деления двух случайных операндов. Следует предусмотреть блокировку ввода ошибочных цифр и других символов.
 
+typedef class expression {
+public:
+	expression(string _body) {
+		body = _body;
+	}
+	string body;
+	// bool is
+
+} expression;
+
 
 int main() {
 	struct termios saved_attributes;
 	void set_input_mode(struct termios& saved_attributes);
 	void reset_input_mode(struct termios& saved_attributes);
+	void clear();
 
 	
 	set_input_mode(saved_attributes);
@@ -30,10 +41,14 @@ int main() {
 		}
 		cout << c << endl;
 	}
+	// clear();
 	// reset_input_mode(saved_attributes);
 }
 
-
+void clear() {
+    // CSI[2J clears screen, CSI[H moves the cursor to top-left corner
+    std::cout << "\x1B[2J\x1B[H";
+}
 
 
 void reset_input_mode(struct termios& saved_attributes)
