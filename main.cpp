@@ -36,11 +36,17 @@ int main() {
 	int progress = 0;
 	while (((c = getchar()) != 27) && c != '\0') {
 		if (c == SampleText[progress]) {
-			progress++;
-			moveCursorTo(3, progress);
+			moveCursorTo(3, progress + 1);
 			cout << "\E[44m";
 			cout << c;
+			moveCursorTo(3, progress + 2);
+			cout << "\E[0m";
+			progress++;
+		} else {
 			moveCursorTo(3, progress + 1);
+			cout << "\E[45m";
+			cout << SampleText[progress];
+			moveCursorTo(3, progress + 2);
 			cout << "\E[0m";
 		}
 		// // cin >> hui;
