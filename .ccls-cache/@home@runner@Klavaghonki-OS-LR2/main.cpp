@@ -17,7 +17,14 @@ int main() {
 
 	
 	set_input_mode(saved_attributes);
-	while (true) {}
+
+
+	
+	while (true) {
+		string hui;
+		cin >> hui;
+		cout << hui << endl;
+	}
 	// reset_input_mode(saved_attributes);
 }
 
