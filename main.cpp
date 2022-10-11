@@ -33,18 +33,26 @@ int main() {
 	char* SampleText = (char*)"Just some sample string that you need to type";
 	cout << SampleText << endl;
 	char c;
+	int progress = 0;
 	while (((c = getchar()) != 27) && c != '\0') {
-		// string hui;
-		// cin >> hui;
-		if (c == 'j') {
-			cout << "\E[20D\E[34m" << endl;
+		if (c == SampleText[progress]) {
+			progress++;
+			moveCursorTo(3, progress);
+			cout << "\E[44m";
+			cout << c;
+			moveCursorTo(3, progress + 1);
+			cout << "\E[0m";
 		}
-		cout << c << endl;
+		// // cin >> hui;
+		// if (c == 'j') {
+		// 	cout << "\E[20D\E[34m" << endl;
+		// }
+		// cout << c << endl;
 	}
 	// cout << "\E[3;2H";
 	// clear();
 	// reset_input_mode(saved_attributes);
-	moveCursorTo(10, 5);
+	// moveCursorTo(10, 5);
 }
 
 void clear() {
