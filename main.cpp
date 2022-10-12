@@ -22,6 +22,7 @@ int main() {
 	
 	int stringLength = 10;  // Amount of symbols in every string.
 	do {
+		clear();
 		cout << "Please input size of string" << endl;
 		cin >> stringLength;
 	} while (!(stringLength >= 1 && stringLength <= 30));
@@ -42,23 +43,23 @@ int main() {
 	while ((c = getchar()) != 27) {  // Waiting ESCAPE to be pressed.
 		while (c != 27 && SampleText[progress] != '\0') {  // Till we reach end of current string.
 			if (c == SampleText[progress]) {  // User typed correct symbol.
-				moveCursorTo(5 + passedStrings, progress + 1);
+				moveCursorTo(3 + passedStrings, progress + 1);
 				cout << "\E[44m";
 				cout << c;
-				moveCursorTo(5 + passedStrings, progress + 2);
+				moveCursorTo(3 + passedStrings, progress + 2);
 				cout << "\E[0m";
 				progress++;
 			} else {  // User typed incorrect symbol.
-				moveCursorTo(5 + passedStrings, progress + 1);
+				moveCursorTo(3 + passedStrings, progress + 1);
 				cout << "\E[45m";
 				cout << SampleText[progress];
-				moveCursorTo(5 + passedStrings, progress + 2);
+				moveCursorTo(3 + passedStrings, progress + 2);
 				cout << "\E[0m";
 			}
 			c = getchar();
 		}
 		if (c == 27) break;
-		moveCursorTo(6 + passedStrings, 1);
+		moveCursorTo(4 + passedStrings, 1);
 		SampleText = generateString(stringLength);
 		cout << SampleText << endl;
 		progress = 0;
