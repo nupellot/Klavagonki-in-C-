@@ -31,26 +31,39 @@ int main() {
 	time_t startTime = time(NULL);
 	char c;
 	int progress = 0;
-	while (((c = getchar()) != 27) && SampleText[progress] != '\0') {
-		if (c == SampleText[progress]) {
-			moveCursorTo(3, progress + 1);
-			cout << "\E[44m";
-			cout << c;
-			moveCursorTo(3, progress + 2);
-			cout << "\E[0m";
-			progress++;
-		} else {
-			moveCursorTo(3, progress + 1);
-			cout << "\E[45m";
-			cout << SampleText[progress];
-			moveCursorTo(3, progress + 2);
-			cout << "\E[0m";
+	int passedStrings = 0;
+	while ((c = getchar()) != 27) {
+		while (c != 27 && SampleText[progress] != '\0') {
+			if (c == SampleText[progress]) {
+				moveCursorTo(3 + passedStrings, progress + 1);
+				cout << "\E[44m";
+				cout << c;
+				moveCursorTo(3 + passedStrings, progress + 2);
+				cout << "\E[0m";
+				progress++;
+			} else {
+				moveCursorTo(3 + passedStrings, progress + 1);
+				cout << "\E[45m";
+				cout << SampleText[progress];
+				moveCursorTo(3 + passedStrings, progress + 2);
+				cout << "\E[0m";
+			}
+			c = getchar();
 		}
+		if (c == 27) break;
+		moveCursorTo(4 + passedStrings, 1);
+		SampleText = generateString(stringLength);
+		cout << SampleText << endl;
+		progress = 0;
+		passedStrings++;
 	}
+	moveCursorTo(3 + passedStrings + 1, 1);
+
 	// cout << "\E[3;2H";
 	// clear();
 	time_t finishTime = time(NULL);
-	cout << finishTime - startTime << endl;
+	cout << passedStrings * stringLength + progress << " symbols in " << finishTime - startTime << " seconds" << endl;
+	cout << passedStrings << " " << progress << endl;
 	resetInputMode(saved_attributes);
 	// moveCursorTo(10, 5);
 }
