@@ -19,53 +19,63 @@ string generateString(int length);
 
 
 int main() {
+	
+	int stringLength = 10;  // Amount of symbols in every string.
+	do {
+		cout << "Please input size of string" << endl;
+		cin >> stringLength;
+	} while (!(stringLength >= 1 && stringLength <= 30));
+
+	// Making the terminal work in non-canonical way.
 	struct termios saved_attributes;
 	setInputMode(saved_attributes);
-
 	
-	
-	int stringLength = 10;
 	string SampleText = "Just some sample string that you need to type";
 	SampleText = generateString(stringLength);
 	cout << SampleText << endl;
-	time_t startTime = time(NULL);
-	char c;
-	int progress = 0;
-	int passedStrings = 0;
-	while ((c = getchar()) != 27) {
-		while (c != 27 && SampleText[progress] != '\0') {
-			if (c == SampleText[progress]) {
-				moveCursorTo(3 + passedStrings, progress + 1);
+	time_t startTime = time(NULL);  // Counting game time.
+	char c;  // Currently typed symbol.
+	int progress = 0;  // Amount of passed symbols in current string.
+	int passedStrings = 0;  // General amount of passed strings.
+
+	// Main game cycle.
+	while ((c = getchar()) != 27) {  // Waiting ESCAPE to be pressed.
+		while (c != 27 && SampleText[progress] != '\0') {  // Till we reach end of current string.
+			if (c == SampleText[progress]) {  // User typed correct symbol.
+				moveCursorTo(5 + passedStrings, progress + 1);
 				cout << "\E[44m";
 				cout << c;
-				moveCursorTo(3 + passedStrings, progress + 2);
+				moveCursorTo(5 + passedStrings, progress + 2);
 				cout << "\E[0m";
 				progress++;
-			} else {
-				moveCursorTo(3 + passedStrings, progress + 1);
+			} else {  // User typed incorrect symbol.
+				moveCursorTo(5 + passedStrings, progress + 1);
 				cout << "\E[45m";
 				cout << SampleText[progress];
-				moveCursorTo(3 + passedStrings, progress + 2);
+				moveCursorTo(5 + passedStrings, progress + 2);
 				cout << "\E[0m";
 			}
 			c = getchar();
 		}
 		if (c == 27) break;
-		moveCursorTo(4 + passedStrings, 1);
+		moveCursorTo(6 + passedStrings, 1);
 		SampleText = generateString(stringLength);
 		cout << SampleText << endl;
 		progress = 0;
 		passedStrings++;
 	}
-	moveCursorTo(3 + passedStrings + 1, 1);
+	
+	moveCursorTo(5 + passedStrings + 1, 1);
+	cout << endl;
 
-	// cout << "\E[3;2H";
-	// clear();
+	// Printing out game results.
 	time_t finishTime = time(NULL);
-	cout << passedStrings * stringLength + progress << " symbols in " << finishTime - startTime << " seconds" << endl;
-	cout << passedStrings << " " << progress << endl;
+	int gameTime = finishTime - startTime;
+	int Score = passedStrings * stringLength + progress;
+	cout << Score << " symbols in " << finishTime - startTime << " seconds" << endl;
+	cout << "Your speed is " << (double)Score/gameTime * 60 << " symbols per minute"<< endl;
+	// Making the terminal work in canonical way.
 	resetInputMode(saved_attributes);
-	// moveCursorTo(10, 5);
 }
 
 
